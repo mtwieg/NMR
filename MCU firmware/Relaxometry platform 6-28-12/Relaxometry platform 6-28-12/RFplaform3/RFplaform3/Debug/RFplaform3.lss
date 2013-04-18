@@ -35,15 +35,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
  15 .debug_frame  000033d4  00000000  00000000  0007780c  2**2
                   CONTENTS, READONLY, DEBUGGING
- 16 .debug_str    00007c53  00000000  00000000  0007abe0  2**0
+ 16 .debug_str    00007c6f  00000000  00000000  0007abe0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 17 .debug_loc    0000e76c  00000000  00000000  00082833  2**0
+ 17 .debug_loc    0000e76c  00000000  00000000  0008284f  2**0
                   CONTENTS, READONLY, DEBUGGING
- 18 .debug_macinfo 018a31f1  00000000  00000000  00090f9f  2**0
+ 18 .debug_macinfo 018a31f1  00000000  00000000  00090fbb  2**0
                   CONTENTS, READONLY, DEBUGGING
  19 .stack        00001000  0000f000  0000f000  00000400  2**0
                   ALLOC
- 20 .debug_ranges 00005ca8  00000000  00000000  01934190  2**0
+ 20 .debug_ranges 00005ca8  00000000  00000000  019341ac  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .reset:
@@ -15987,7 +15987,7 @@ bool SD_card_inserted(void)
 						usart_write_line(LCD_USART, "play modesel\r\n");
 						break;
 					case SD_card_invalid:
-						usart_write_line(USB_USART, "play badSD\r\n");
+						usart_write_line(LCD_USART, "play badSD\r\n");
 						while(strcmp(get_LCD_cmd(),"BR2\r")!=0);
 						usart_write_line(LCD_USART, "play modesel\r\n");
 80007324:	18 93       	mov	r3,r12
@@ -16202,13 +16202,13 @@ bool SD_card_inserted(void)
 				}
 				else if(tempsd==SD_card_init_failed)
 8000742a:	fe fb 02 d6 	ld.w	r11,pc[726]
-8000742e:	fc 7c 14 00 	mov	r12,-191488
+8000742e:	fe 7c 28 00 	mov	r12,-55296
 					while(strcmp(get_LCD_cmd(),"BR2\r")!=0);
 					usart_write_line(LCD_USART, "play modesel\r\n");
 				}
 				else if(tempsd==SD_card_invalid)
 				{	//SD card init but not valid
-					usart_write_line(USB_USART, "play badSD\r\n");
+					usart_write_line(LCD_USART, "play badSD\r\n");
 80007432:	cb 8d       	rcall	800077a2 <usart_write_line>
 80007434:	fe b0 fa 70 	rcall	80006914 <get_LCD_cmd>
 80007438:	fe fb 02 a4 	ld.w	r11,pc[676]
@@ -16499,7 +16499,7 @@ char* get_HOST_cmd(void)
 80007610:	cf b1       	brne	80007606 <idle+0x3a2>
 80007612:	fe 9f fe 89 	bral	80007324 <idle+0xc0>
 80007616:	4b bb       	lddpc	r11,80007700 <idle+0x49c>
-80007618:	fc 7c 14 00 	mov	r12,-191488
+80007618:	fe 7c 28 00 	mov	r12,-55296
 						}
 					
 						uint32_t SD_read_ptr=data_base_address;
@@ -16525,7 +16525,7 @@ char* get_HOST_cmd(void)
 					case SD_card_not_inserted:
 						usart_write_line(LCD_USART, "play noSD\r\n");
 8000762e:	4b db       	lddpc	r11,80007720 <idle+0x4bc>
-80007630:	fc 7c 14 00 	mov	r12,-191488
+80007630:	fe 7c 28 00 	mov	r12,-55296
 80007634:	cb 7c       	rcall	800077a2 <usart_write_line>
 80007636:	fe b0 f9 6f 	rcall	80006914 <get_LCD_cmd>
 						while(strcmp(get_LCD_cmd(),"BR2\r")!=0);
@@ -16534,12 +16534,12 @@ char* get_HOST_cmd(void)
 80007640:	cf b1       	brne	80007636 <idle+0x3d2>
 80007642:	fe 9f fe 71 	bral	80007324 <idle+0xc0>
 80007646:	4b 8b       	lddpc	r11,80007724 <idle+0x4c0>
-						usart_write_line(USB_USART, "play SDerr\r\n");
+						usart_write_line(LCD_USART, "play SDerr\r\n");
 						while(strcmp(get_LCD_cmd(),"BR2\r")!=0);
 						usart_write_line(LCD_USART, "play modesel\r\n");
 						break;
 					case SD_card_invalid:
-						usart_write_line(USB_USART, "play badSD\r\n");
+						usart_write_line(LCD_USART, "play badSD\r\n");
 80007648:	fe 7c 28 00 	mov	r12,-55296
 8000764c:	ca bc       	rcall	800077a2 <usart_write_line>
 8000764e:	fe b0 f9 63 	rcall	80006914 <get_LCD_cmd>
@@ -16555,7 +16555,7 @@ char* get_HOST_cmd(void)
 						usart_write_line(LCD_USART, "play modesel\r\n");
 						break;
 					case SD_card_init_failed:
-						usart_write_line(USB_USART, "play SDerr\r\n");
+						usart_write_line(LCD_USART, "play SDerr\r\n");
 80007662:	49 9b       	lddpc	r11,800076c4 <idle+0x460>
 80007664:	30 4c       	mov	r12,4
 80007666:	fe b0 e8 60 	rcall	80004726 <pdca_load_channel>
@@ -16595,7 +16595,7 @@ char* get_HOST_cmd(void)
 800076a2:	fe 9f fe 41 	bral	80007324 <idle+0xc0>
 800076a6:	49 fb       	lddpc	r11,80007720 <idle+0x4bc>
 						USB_USART->cr|=AVR32_USART_CR_STTTO_MASK;	//set to not start counting again until after new character is received
-800076a8:	fc 7c 14 00 	mov	r12,-191488
+800076a8:	fe 7c 28 00 	mov	r12,-55296
 800076ac:	c7 bc       	rcall	800077a2 <usart_write_line>
 800076ae:	fe b0 f9 33 	rcall	80006914 <get_LCD_cmd>
 						USB_USART->rtor=15000; //baud rate is 3mbaud, so 15000 gives 5ms timeout
@@ -16633,7 +16633,7 @@ char* get_HOST_cmd(void)
 				}
 				else if(tempsd==SD_card_init_failed)
 				{	//SD card failed to init
-					usart_write_line(USB_USART, "play SDerr\r\n");
+					usart_write_line(LCD_USART, "play SDerr\r\n");
 800076e2:	e3 9c       	*unknown*
 800076e4:	00 00       	add	r0,r0
 800076e6:	0b 4e       	ld.w	lr,--r5
@@ -18101,7 +18101,7 @@ __attribute__((__interrupt__)) void tc_irq(void)
 
 int main (void) {
 80007e04:	eb cd 40 c0 	pushm	r6-r7,lr
-	
+		//initialize DDS configuration
 		DDS_options.pcs=DDS_PCS;
 		DDS_options.SERmode=SER_MODE_3WIRE;
 		DDS_options.LSBfirst=MSB_FIRST;
@@ -18124,7 +18124,7 @@ int main (void) {
 }
 
 int main (void) {
-	
+		//initialize DDS configuration
 		DDS_options.pcs=DDS_PCS;
 80007e0e:	4c 2b       	lddpc	r11,80007f14 <main+0x110>
 		DDS_options_CH1.coreenable=DCPDN_ON;
@@ -18147,13 +18147,12 @@ int main (void) {
 80007e18:	b0 fa       	st.b	r8[0x7],r10
 
 int main (void) {
-	
+		//initialize DDS configuration
 		DDS_options.pcs=DDS_PCS;
 		DDS_options.SERmode=SER_MODE_3WIRE;
 		DDS_options.LSBfirst=MSB_FIRST;
 80007e1a:	b6 ba       	st.b	r11[0x3],r10
 		DDS_options.VCOgain=DDS_VCO_gain;
-		//DDS_options.PLLdiv=10;	//use 10 with 12MHz clock
 		DDS_options.PLLdiv=DDS_PLL_div;		//use 6 for 20MHz clock
 		DDS_options.CHRGPMP=CHRGPMP_75uA;
 80007e1c:	b6 ea       	st.b	r11[0x6],r10
@@ -18176,7 +18175,7 @@ int main (void) {
 }
 
 int main (void) {
-	
+		//initialize DDS configuration
 		DDS_options.pcs=DDS_PCS;
 		DDS_options.SERmode=SER_MODE_3WIRE;
 80007e2a:	30 1a       	mov	r10,1
@@ -18194,8 +18193,8 @@ int main (void) {
 		DDS_options_CH1.channels=CH_EN_1;
 		DDS_options_CH1.AFPmod=Amod;
 80007e30:	b0 aa       	st.b	r8[0x2],r10
+		DDS_options.LSBfirst=MSB_FIRST;
 		DDS_options.VCOgain=DDS_VCO_gain;
-		//DDS_options.PLLdiv=10;	//use 10 with 12MHz clock
 		DDS_options.PLLdiv=DDS_PLL_div;		//use 6 for 20MHz clock
 		DDS_options.CHRGPMP=CHRGPMP_75uA;
 		DDS_options.PPC=0b101;
@@ -18204,7 +18203,7 @@ int main (void) {
 }
 
 int main (void) {
-	
+		//initialize DDS configuration
 		DDS_options.pcs=DDS_PCS;
 		DDS_options.SERmode=SER_MODE_3WIRE;
 80007e36:	b6 aa       	st.b	r11[0x2],r10
@@ -18231,7 +18230,7 @@ int main (void) {
 }
 
 int main (void) {
-	
+		//initialize DDS configuration
 		DDS_options.pcs=DDS_PCS;
 80007e42:	30 7a       	mov	r10,7
 		DDS_options_CH0.RURDenable=AMP_MUL_MANUAL;
@@ -18245,7 +18244,7 @@ int main (void) {
 }
 
 int main (void) {
-	
+		//initialize DDS configuration
 		DDS_options.pcs=DDS_PCS;
 80007e46:	b6 8a       	st.b	r11[0x0],r10
 		DDS_options.PLLdiv=DDS_PLL_div;		//use 6 for 20MHz clock
@@ -18314,11 +18313,11 @@ int main (void) {
 		DDS_options_CH0.POW=0;
 80007e64:	30 0a       	mov	r10,0
 80007e66:	f3 5a 00 10 	st.h	r9[16],r10
+		//initialize DDS configuration
 		DDS_options.pcs=DDS_PCS;
 		DDS_options.SERmode=SER_MODE_3WIRE;
 		DDS_options.LSBfirst=MSB_FIRST;
 		DDS_options.VCOgain=DDS_VCO_gain;
-		//DDS_options.PLLdiv=10;	//use 10 with 12MHz clock
 		DDS_options.PLLdiv=DDS_PLL_div;		//use 6 for 20MHz clock
 80007e6a:	30 f9       	mov	r9,15
 80007e6c:	b6 d9       	st.b	r11[0x5],r9
@@ -18353,15 +18352,16 @@ int main (void) {
 80007e78:	e0 69 10 00 	mov	r9,4096
 80007e7c:	f1 59 00 10 	st.h	r8[16],r9
 	
-	board_init();
+	board_init();	//initialize MCU peripherals
 80007e80:	fe b0 fd b8 	rcall	800079f0 <board_init>
 	
-	fnEnterAVRInterrupt((int)(AVR32_TC0_IRQ0 / AVR32_INTC_MAX_NUM_IRQS_PER_GRP), INT_LEVEL_0,(void (*)(void))tc_irq);
+	fnEnterAVRInterrupt((int)(AVR32_TC0_IRQ0 / AVR32_INTC_MAX_NUM_IRQS_PER_GRP), INT_LEVEL_0,(void (*)(void))tc_irq);	//create ISR for timer
 80007e84:	fe ca 00 88 	sub	r10,pc,136
 80007e88:	30 0b       	mov	r11,0
 80007e8a:	32 1c       	mov	r12,33
 80007e8c:	fe b0 dc 2e 	rcall	800036e8 <fnEnterAVRInterrupt>
 	
+	//initialize DMA channels
 	pdca_disable(SPI1_RX_PDCA_CHANNEL);
 80007e90:	30 0c       	mov	r12,0
 80007e92:	fe b0 e4 25 	rcall	800046dc <pdca_disable>
@@ -18415,9 +18415,9 @@ int main (void) {
 80007ee6:	2f ad       	sub	sp,-24
 80007ee8:	48 fa       	lddpc	r10,80007f24 <main+0x120>
 80007eea:	f0 c9 fe 00 	sub	r9,r8,-512
-	my_pdca_init_channel(SPI0_RX_PDCA_CHANNEL,(uint32_t)(&bank0),0, SPI0_RX_PDCA_PID, 0, 0, PDCA_TRANSFER_SIZE_BYTE);	//initialize with 0 in TCR and TCRR so that nothing happens until TCR is written
 	
-	uint8_t temp=0;	//MUST MAKE SURE THAN MOSI IS HELD HIGH DURING READ OPERATIONS, OTHERWISE READ RESULTS WILL BE MESSED UP
+	//create a dummy data block for later use
+	uint8_t temp=0;	
 	for(int i=0;i<512;i++)
 		{
 			dummyblock[i]=0xFF;
@@ -18427,8 +18427,6 @@ int main (void) {
 	
 	cpu_irq_disable();
 80007ef2:	cf e1       	brne	80007eee <main+0xea>
-	
-//	boot();
 
 	pdca_enable(LCD_USART_RX_PDCA_CHANNEL);
 80007ef4:	d3 03       	ssrf	0x10
@@ -18439,7 +18437,7 @@ int main (void) {
 80007efc:	30 4c       	mov	r12,4
 80007efe:	fe b0 e3 fc 	rcall	800046f6 <pdca_enable>
 
-	idle();
+	idle();	//start main routine
 80007f02:	fe b0 f9 b1 	rcall	80007264 <idle>
 	
 }

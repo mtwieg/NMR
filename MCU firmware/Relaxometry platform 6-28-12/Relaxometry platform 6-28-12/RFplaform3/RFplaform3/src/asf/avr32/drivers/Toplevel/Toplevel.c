@@ -104,13 +104,13 @@ void idle(void)
 				}
 				else if(tempsd==SD_card_init_failed)
 				{	//SD card failed to init
-					usart_write_line(USB_USART, "play SDerr\r\n");
+					usart_write_line(LCD_USART, "play SDerr\r\n");
 					while(strcmp(get_LCD_cmd(),"BR2\r")!=0);
 					usart_write_line(LCD_USART, "play modesel\r\n");
 				}
 				else if(tempsd==SD_card_invalid)
 				{	//SD card init but not valid
-					usart_write_line(USB_USART, "play badSD\r\n");
+					usart_write_line(LCD_USART, "play badSD\r\n");
 					while(strcmp(get_LCD_cmd(),"BR2\r")!=0);
 					usart_write_line(LCD_USART, "play modesel\r\n");
 				}	
@@ -129,12 +129,12 @@ void idle(void)
 						usart_write_line(LCD_USART, "play modesel\r\n");
 						break;
 					case SD_card_init_failed:
-						usart_write_line(USB_USART, "play SDerr\r\n");
+						usart_write_line(LCD_USART, "play SDerr\r\n");
 						while(strcmp(get_LCD_cmd(),"BR2\r")!=0);
 						usart_write_line(LCD_USART, "play modesel\r\n");
 						break;
 					case SD_card_invalid:
-						usart_write_line(USB_USART, "play badSD\r\n");
+						usart_write_line(LCD_USART, "play badSD\r\n");
 						while(strcmp(get_LCD_cmd(),"BR2\r")!=0);
 						usart_write_line(LCD_USART, "play modesel\r\n");
 						break;
