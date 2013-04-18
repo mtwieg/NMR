@@ -1,0 +1,94 @@
+%This script performs an inversion recovery experiment (with phase cycling) to measure T1.
+
+global experiment;  %define globals
+global true_experiment;
+declare_experiment;
+global s;
+
+define_experiment_example; %define sequence parameters, this is a function you create
+
+experiment.Nexperiments=uint32(8);  %number of experiment repetitions
+
+Nseq=8;  %number of different TIs per experiment
+TImin=100;  %select range of TIs, in milliseconds
+TImax=40e3;
+
+tau=40; %select tau of CPMG
+
+BW=100000; %bandwidth of amplitude measurement, should be equal to RF pulse bandwidth
+
+experiment.Nsequences=uint16(Nseq); %TIs will be distributed linearly through the defined range
+if(Nseq>1)
+    TIlist=(TImin:(TImax-TImin)/(Nseq-1):TImax);
+else
+    TIlist=TImin;
+end
+clear TImin;
+clear TImax;
+
+Tcpmg=0.02; %define duration of CPMG, in seconds
+Nechoes=(round(Tcpmg*1000000./(2*tau))); %determine number of echoes in CPMG
+
+Vb_180=2600;    %select amplitude of inversion/refocusing pulses
+Vb_90=1300;      %select amplitude of excitation pulses
+
+%change sequence parameters
+for k=1:Nseq
+    experiment.sequence(k).preppulse(1).tau=single(TIlist(k));
+    experiment.sequence(k).preppulse(2).tau=single(tau);
+    experiment.sequence(k).cpmg.tau=single(tau);
+    experiment.sequence(k).cpmg.Nechos=uint32(Nechoes);
+    experiment.sequence(k).preppulse(1).Vb=uint16(Vb_180);
+    experiment.sequence(k).preppulse(2).Vb=uint16(Vb_90);
+    experiment.sequence(k).cpmg.Vb=uint16(Vb_180);
+    experiment.sequence(k).Npreppulses=uint16(2);
+    experiment.sequence(k).preppulse(2).pulsephase=single(0); %set phase of excitation to 0
+end
+
+CPXechoes_pos=run_host_mode;  %perform experiment again with RF phase of 0
+
+for k=1:Nseq
+    experiment.sequence(k).preppulse(2).pulsephase=single(180); %set phase of excitation to 180
+end
+
+CPXechoes_neg=run_host_mode;  %perform experiment again with RF phase of 180
+
+%get mean real echo values
+CPXechoes_sum=CPXechoes_pos-CPXechoes_neg; %take difference of echoes
+CPXechoes_sum_mean=squeeze(mean(CPXechoes_sum,1));  %average all experiments
+echovalues_mean=evaluate_echoes_f_real_mean(CPXechoes_sum_mean,BW,100);  %calculate real echo values
+
+%calculate time axis
+time=[double(tau)*2/1000000:double(tau)*2/1000000:(double(tau)*2/1000000)*double(Nechoes)];
+
+%create variables to hold fitting results
+magnitude_series=zeros(1,Nseq);
+offset_series=zeros(1,Nseq);
+T2a_series=zeros(1,Nseq);
+
+%do exponential fit of real echo values
+%should estimate approximate T2 and offset for best results.
+%amplitude of first echo will be automatically used to guess intial
+%magnetization
+
+guessT2=0.005;
+guessoffset=25;
+
+for k=1:Nseq
+    figure(k)
+    plot(time,echovalues_mean(k,1:Nechoes))
+    fitparameters=fminsearch('fitt2offset',[guessoffset echovalues_mean(k,1)-guessoffset guessT2],[],time,echovalues_mean(k,1:Nechoes));
+    magnitude_series(k)=fitparameters(2);
+    T2a_series(k)=fitparameters(3);
+    offset_series(k)=fitparameters(1);  
+end
+k=k+1;
+figure(k)
+
+guessT1=0.1;
+guessM0
+%do reverse exponential fit on fit magnetizations to calculate T1
+fitT1=fminsearch('IRfit',[-3000 3000 0.01],[],double(TIlist)./1000000,double(magnitude_series(fitstart:fitstop)))
+
+
+% eval(['save data_T1_freemilk_rep4_6_6_12 experiment true_experiment CPXechoes_pos CPXechoes_neg TIlist Tcpmg BW Nseq echovalues_mean magnitude_series T2a_series fitT1'])

@@ -1,0 +1,50 @@
+function [echovalues] = evaluate_echoes_f_real(CPXechoes,bandwidth,FTsize)
+%this function takes the CPXechoes data and evaluates the real "amplitude" of
+%the echoes.  This function assumes that CPXechoes has four non-singleton
+%dimensions, 
+global true_experiment;
+global experiment;
+
+most_echoes=0;
+most_samps=0;
+most_Nsamp=0;
+        for experimentcount=1:true_experiment.Nexperiments
+            for sequencecount=1:true_experiment.Nsequences
+                if uint32(true_experiment.sequence(sequencecount).cpmg.Nechos)*uint32(true_experiment.sequence(sequencecount).cpmg.Nsamp)>most_samps;
+                most_samps=uint32(true_experiment.sequence(sequencecount).cpmg.Nechos)*uint32(true_experiment.sequence(sequencecount).cpmg.Nsamp);
+                end
+                if uint32(true_experiment.sequence(sequencecount).cpmg.Nsamp)>most_Nsamp;
+                most_Nsamp=uint32(true_experiment.sequence(sequencecount).cpmg.Nsamp);
+                end
+                if uint32(true_experiment.sequence(sequencecount).cpmg.Nechos)>most_echoes;
+                most_echoes=uint32(true_experiment.sequence(sequencecount).cpmg.Nechos);
+                end
+            end
+        end
+
+
+echovalues=zeros(true_experiment.Nexperiments,true_experiment.Nsequences,most_echoes);
+% padded_echoes_f=zeros(true_experiment.Nexperiments,true_experiment.Nsequences,most_echoes,FTsize);
+padded_echo_f_temp=zeros(1,FTsize);
+
+for i=1:experiment.Nexperiments
+    for j=1:experiment.Nsequences
+        for k=1:true_experiment.sequence(j).cpmg.Nechos
+%             padded_echoes_f(i,j,k,:)=fft(fftshift(padarray(CPXechoes(i,j,k,:),((FTsize-true.experiment.sequence(j).cpmg.Nsamps)/2))));
+            
+            padded_echo_f_temp=fft(fftshift(padarray(squeeze(CPXechoes(i,j,k,:)),((FTsize-double(true_experiment.sequence(j).cpmg.Nsamp))/2))));
+            
+            df=1000000/(FTsize*true_experiment.sequence(j).cpmg.dt); %get frequency resolution
+            samps=round(bandwidth/df/2);
+%             figure(10);
+%             plot(real(padded_echo_f_temp));
+            echovalues(i,j,k)=mean(real(padded_echo_f_temp([1:samps FTsize-samps:FTsize])));
+            
+%             samps=uint16(round(time/true_experiment.sequence(j).cpmg.dt/2));
+%             echovalues(i,j,k)=mean(real(CPXechoes(i,j,k,true_experiment.sequence(j).cpmg.Nsamp/2-samps:true_experiment.sequence(j).cpmg.Nsamp/2+samps)));
+        end
+    end
+end
+
+end
+

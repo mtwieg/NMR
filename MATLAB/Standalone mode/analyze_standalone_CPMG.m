@@ -1,0 +1,80 @@
+%this script is meant to take data from a very long CPMG experiment with
+%only one sequence repeated many times.  The experiment should be phase
+%cycled, with the cycles interleaved evenly.  The script can take the raw
+%repetitions and group them, and average the results of the groups to
+%increase SNR in exchange for time resolution. The group results are then
+%fitted and the results are displayed as a time series.
+
+%it is assumed at this point that the echo data from the platform has
+%already been imported into the variable 'CPXechoes' using the function
+%get_echoes_from _SD, and 
+
+global true_experiment;
+
+Group_size=50; %this is the size of the group we want to average together.  
+BW=100000; %bandwidth for echo amplitude measurement
+Ngroups=true_experiment.Nexperiments/Group_size; %Must be an even divisor of Nexperiments
+
+%first, combined phase cycled data to eliminate offset and artifacts
+CPXechoes_nulled=zeros(true_experiment.Nexperiments,true_experiment.Nsequences/2,true_experiment.sequence(1).cpmg.Nechos,true_experiment.sequence(1).cpmg.Nsamp,'single');
+for k=1:(true_experiment.Nsequences/2)
+    CPXechoes_nulled(:,k,:,:)=CPXechoes(:,2*(k-1)+1,:,:)-CPXechoes(:,2*(k-1)+2,:,:);
+end
+clear CPXechoes;
+
+%create variable to hold averaged groups
+CPXechoes_mean=zeros(Ngroups,true_experiment.Nsequences/2,true_experiment.sequence(1).cpmg.Nechos,true_experiment.sequence(1).cpmg.Nsamp);
+
+%do averaging of groups
+for k=1:Ngroups
+    CPXechoes_mean(k,:,:,:)=mean(CPXechoes_nulled((k-1)*Group_size+1:k*Group_size,:,:,:),1);
+end
+
+
+echovalues_real_mean=zeros(Ngroups,true_experiment.Nsequences/2,true_experiment.sequence(1).cpmg.Nechos);
+
+%calculate echo values
+for k=1:Ngroups
+    echovalues_real_mean(k,:,:)=evaluate_echoes_f_real_mean(squeeze(CPXechoes_mean(k,:,:,:)),BW,100);  %calculate real echo values
+end
+
+figure(1) %preview of averaged echo values
+plot(squeeze(echovalues_real_mean(:,:,:)).')
+
+%prepare for curve fitting
+Nechoes=double(true_experiment.sequence(1).cpmg.Nechos);
+Nseq=true_experiment.Nsequences/2;
+tau=true_experiment.sequence(1).cpmg.tau;
+magnitude_series=zeros(1,Nseq);
+offset_series=zeros(1,Nseq);
+T2a_series=zeros(1,Nseq);
+
+%calculate time axis
+time=[double(tau)*2/1000000:double(tau)*2/1000000:(double(tau)*2/1000000)*double(Nechoes)];
+
+%do exponential fit of real echo values
+%should estimate approximate T2 and offset for best results.
+%amplitude of first echo will be automatically used to guess intial
+%magnetization
+
+guessT2=0.001; %because this is a variable TE CPMG, T2 will change every experiment
+guessoffset=25;
+
+for j=1:Ngroups
+        fitparameters=fminsearch('fitt2offset',[guessoffset echovalues_real_mean(j,1,1)-guessoffset guessT2],[],time,squeeze(echovalues_real_mean(j,1,1:Nechoes)));
+        magnitude_series(j)=fitparameters(2);
+        T2a_series(j)=fitparameters(3);
+        offset_series(j)=fitparameters(1);  
+end
+%plot results
+figure(1)
+plot(T2a_series)
+title('T2a')
+figure(2)
+plot(magnitude_series)
+title('Magnitude')
+figure(3)
+plot(offset_series)
+title('Offset')
+
+% eval(['save data_CPMG_timeseries experiment true_experiment CPXechoes_nulled Group_size Ngroups Nseq echovalues_real_mean magnitude_series T2a_series offset_series BW'])
