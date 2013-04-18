@@ -1,0 +1,9 @@
+CLS blue
+color white
+font sans36
+xy 20 20
+print "No SD card inserted"
+xy 20 80
+print "Insert SD card"
+STRING 1 "Cancel"
+BUTTON 2 220 150 150 75 1 0 10 2 1

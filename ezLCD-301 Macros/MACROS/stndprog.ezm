@@ -1,0 +1,25 @@
+CLS blue
+color white
+font sans24
+xy 20 20
+print "Standalone mode in progress"
+
+DMETER 1 10 70 75 25 14 000 3 0 1
+xy 95 70
+print "out of"
+DMETER 2 165 70 75 25 14 000 3 0 1
+xy 245 70
+print "experiments"
+
+DMETER 3 10 120 75 25 14 000 3 0 1
+xy 95 120
+print "out of"
+DMETER 4 165 120 75 25 14 000 3 0 1
+xy 245 120
+print "sequences"
+
+
+STRING 1 "Cancel"
+BUTTON 2 260 170 100 60 1 0 10 2 1
+
+

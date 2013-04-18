@@ -1,0 +1,8 @@
+CLS blue
+color white
+font sans24
+xy 20 20
+print "Invalid experiment detected"
+STRING 1 "Cancel"
+BUTTON 2 125 125 150 75 1 0 10 2 1
+

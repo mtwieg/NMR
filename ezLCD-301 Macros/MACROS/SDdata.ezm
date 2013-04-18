@@ -1,0 +1,10 @@
+CLS blue
+color white
+font sans36
+xy 20 20
+print "Invalid SD card"
+xy 20 80
+print "Use approved SD card"
+STRING 0 "Return"
+BUTTON 1 10 150 200 75 1 0 10 2 0
+

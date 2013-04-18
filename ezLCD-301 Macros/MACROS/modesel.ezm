@@ -1,0 +1,17 @@
+CLS blue
+color white
+font sans36
+xy 20 20
+print "Ready"
+xy 20 50
+print "SD card detected"
+xy 20 80
+print "Initiate host operation"
+xy 20 110
+print "Or select from below"
+font sans24
+String 0 Standalone
+String 1 SDcard
+
+BUTTON 1 30 150 150 75 1 0 10 2 0
+BUTTON 2 210 150 150 75 1 0 10 2 1

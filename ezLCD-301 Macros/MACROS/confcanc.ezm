@@ -1,0 +1,11 @@
+CLS blue
+color white
+font sans36
+xy 20 20
+print "Really cancel?"
+STRING 0 "Continue"
+STRING 1 "Yes, Cancel"
+BUTTON 1 220 100 150 75 1 0 10 2 0
+BUTTON 3 10 100 150 75 1 0 10 2 1
+
+

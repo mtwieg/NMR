@@ -1,0 +1,145 @@
+'************** Startup.ezm ********************************
+' ezLCD-301 startup.ezm 
+' (c) 2011 Earth Computer Technologies, Inc dba EarthLCD.com
+'Release 1.1E Jan 10, 2012 
+'Firmware Version 1.1 and File System Release E
+'***********************************************************
+'***************************
+'* DO NOT CHANGE THIS FILE *
+'***************************
+'THIS MACRO IS AUTOMATICALLY RUN AT POWERUP AND RESET
+verbose off     'Do not display debug information to command port
+'**********************
+' Draw Startup Screen *
+'**********************
+'string 49 "E" 'File System Release
+cls blue	'cls to white
+'Color white  	'set color to black
+'Font serif24 	'set font to serif24
+'PICTURE 0 0 3 "logo200.gif"   'draw logo center screen
+'Color black  	'set color to black
+'XY 38 10	'sets to print on the top of screen
+'print "RF platform V3 " 	'Print model numer
+
+
+'CMD CDC 	  'Configure Command Port to USB CDC
+'Configuration 2 below
+'CMD SERIAL2 9600 1 N81		'Configure Command Port 
+'			to SERIAL2 9600 BAUD No Parity, 8 bits 1 Stop Bit
+'Configuration 3 below
+CMD SERIAL2 115200 1 N81	'Configure Command Port to SERIAL2 
+'				115200 BAUD No Parity, 8 bits 1 Stop Bit
+'
+' Above sets the port that your ezLCD-301 accepts commands 
+' from. Ships with CMD CDC active (not commented out). When
+' you decide to hook to a microcontroller you will comment out 
+' configuration 1 (CMD CDC) and then remove comment character 
+' from configuration 2 (CMD  SERIAL2)  
+'
+' For configuration 1 & 2 connect your micro to ezLCD-30x 'connector P1 pin 8(RX)& 7(TX)
+' to send commands when using SERIAL2.
+'
+
+'******************
+'* ezLCD defaults *
+'******************
+'***********************************
+'Changing below themes will cause manual and provided examples to function
+'differently. Add your own themes instead of changing these!
+'setup  fonts for themes 0 - 7
+fontw 0 serif24
+fontw 1 serif24
+fontw 2 serif24
+fontw 3 serif24
+fontw 4 serif24
+fontw 5 serif24
+fontw 6 serif24
+fontw 7 serif24
+'Themes apply towards all widgets such as Buttons
+'A = Theme Index
+'B = EmbossDkColor      Dark Emboss color used for 3-D effect of objects
+'C = EmbossLtColor      Light Emboss color used for 3-D effect of objects 
+'D = Text_color0        For text, Useage may vary from one object to another, has or doesn't have focus? 
+'E = Text_color1        For text when pressed, Useage may vary from one object to another
+'F = TextColorDisabled  Color of objects that are disabled
+'G = color0             For objects, Useage may vary from one object to another, has or doesn't have focus?
+'H = color1             For objects when pressed, Useage may vary from one object to another
+'I = ColorDisabled      Used to render objects that are disabled
+'J = CommonBkColor      Used to hide objects from screen but still active
+'K = Fontw		Font associated with this theme
+'     A   B   C D E F  G  H   I J K
+theme 0   1   2 0 0 0  3  3   1 0 0
+theme 1 155 152 3 3 3  4  4   5 0 1
+theme 2   5  20 3 3 3  4  4   5 0 2
+theme 3   9   3 0 0 0  8  8   9 0 3
+theme 4   7   3 0 0 0  6  6   6 6 4
+theme 5 126 118 3 3 3 35 35  36 0 5
+theme 6 111 106 3 3 3 12 12 101 0 6
+theme 7  58  48 3 3 3 14 14  54 0 7
+'====================================================
+'
+' REVISION AND IMPORTANT NOTICES BELOW (NO COMMANDS)
+'
+'====================================================
+'
+'*************
+'* IMPORTANT *
+'*************
+' TO CHANGE YOUR STARTUP.EZM AND DEFAULT SETTINGS 
+' make a copy of this (startup.ezm) and save it in 
+' your \USER\MACROS directory and modify it! At powerup
+' ezLCD searches for it there first and will load it. 
+' To get back to factory default just rename 
+' or delete the one you created in \USER\MACROS and the 
+' one in \SYS\MACROS will load on RESET or power up.
+' verbose OFF 'Set verbose to off - 
+' verbose ON 'echos description of executed command to 
+' command port
+
+'*************************
+'* revision info & notes *
+'*************************
+'
+' Widget Themes defaults
+'***********************************
+'to be added rev d
+' Fonts defaults
+'***********************************
+'to be added rev d
+'File System Release B Revision Log
+'**********************************
+' Added missing carriage return in last line of startup.ezm
+' Added more comments to ezstartup.ezm for better understanding
+' of startup functionality and command port and serial port 
+' pinout fixed (was reversed!)
+' Updated or added startup.ezm, buttons.ezm, fonts.ezm
+'
+'File System Release C Revision Log
+'**********************************
+'Added shapes.ezm macro that shows drawing commands
+'Added align.ezm macro that shows print command alignment options
+'File System Release D Suggestions
+'**********************************
+' Default fonts
+' Default widget themes
+'
+'File System Release E Revision Log & Firmware 1.1 Revisions
+'************************************************************
+'Removed planet earth image from splash and went to logo on white
+'Added support (via separate file system) for ezLCD-302
+'Added internal small font as font 1
+'Added widget value settings see revision 1.0 manual and demo
+' macros in \SYS\MACROS
+'
+' set echo and verbose on
+' for complete command description. 
+' HIGHLY recommended	
+' for learning and debugging!
+'
+'verbose ON	'Tell ezLCD to send debug info to command port
+' ezLCD-301 startup.ezm 
+' (c) 2011 Earth Computer Technologies, Inc dba EarthLCD.com
+'Release 1.1E Jan 5, 2012 
+'File System Release E
+PLAY BOOT
+

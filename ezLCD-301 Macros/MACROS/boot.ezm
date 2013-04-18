@@ -1,0 +1,7 @@
+CLS blue
+color white
+font serif48
+xy 20 20
+print "RF platform 3.0"
+xy 20 60
+print "Booting up..."

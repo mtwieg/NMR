@@ -1,0 +1,14 @@
+CLS blue
+color white
+font sans32
+xy 20 20
+print "Valid experiment detected"
+STRING 2 "Cancel"
+BUTTON 3 125 160 150 75 1 0 10 2 2
+
+STRING 0 "View\nexperiment"
+BUTTON 1 10 70 200 75 1 0 10 2 0
+STRING 1 "Start\nexperiment"
+BUTTON 2 220 70 150 75 1 0 10 2 1
+
+
