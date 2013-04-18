@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# AvrStudio Solution File, Format Version 11.00
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "RFplaform3", "RFplaform3\RFplaform3.cproj", "{F0DC73F4-D85F-4300-9914-1235E3188262}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AVR = Debug|AVR
+		Release|AVR = Release|AVR
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F0DC73F4-D85F-4300-9914-1235E3188262}.Debug|AVR.ActiveCfg = Debug|AVR
+		{F0DC73F4-D85F-4300-9914-1235E3188262}.Debug|AVR.Build.0 = Debug|AVR
+		{F0DC73F4-D85F-4300-9914-1235E3188262}.Release|AVR.ActiveCfg = Release|AVR
+		{F0DC73F4-D85F-4300-9914-1235E3188262}.Release|AVR.Build.0 = Release|AVR
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
