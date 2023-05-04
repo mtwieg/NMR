@@ -1,0 +1,16 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: NMR
+Upstream-Contact: Mike Twieg <mdt24@case.edu>
+Source: https://github.com/moedn/NMR/
+
+Files: /BOMs /EAGLE
+Copyright: Mike Twieg <mdt24@case.edu>
+License: CERN-OHL-P-2.0
+
+Files: /MATLAB /MCU firmware /ezLCD-301 Macros README.md
+Copyright: Mike Twieg <mdt24@case.edu>
+License: MIT
+
+Files: Mike%20Twieg%20thesis%20-%20Open%20Source%20Relaxometry.pdf
+Copyright: Mike Twieg <mdt24@case.edu>
+License: CC-BY-4.0
