@@ -21,3 +21,13 @@ We are, of course, open to any and all suggestions.
 
 Mike Twieg
 mdt24@case.edu
+
+## Licensing
+
+- content in `/BOMs` and `/EAGLE` is licensed under [CERN OHL P v2.0](LICENSES/CERN-OHL-P-2.0)
+- content in `/BOMs` and `/EAGLE` is licensed under [MIT](LICENSES/MIT)
+- content in `/BOMs` and `/EAGLE` is licensed under [CC BY 4.0](LICENSES/CC-BY-4.0)
+
+See [.reuse/dep5](.reuse/dep5) for details.
+
+Metadata is provided following the [REUSE specification v3.0](https://reuse.software/spec/)
